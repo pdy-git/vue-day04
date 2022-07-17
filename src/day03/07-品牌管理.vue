@@ -24,26 +24,26 @@
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
             <td :class="{ red: item.price > 100 }">{{ item.price }}</td>
-            <td>{{ item.time }}</td>
+            <td>{{ item.time | dateTime }}</td>
 
             <!-- 如果价格超过100，就有red这个类 -->
             <td class="red"></td>
-            <td></td>
-            <td><a href="#">删除</a></td>
+            <td><a href="#" @click="delFn">删除</a></td>
           </tr>
-          <!-- <tr style="background-color: #EEE">
-              <td>统计:</td>
-              <td colspan="2">总价钱为: 0</td>
-              <td colspan="2">平均价: 0</td>
-          </tr> -->
+
+          <!-- 计算价格 -->
+          <tr style="background-color: #eee">
+            <td>统计:</td>
+            <td colspan="2">总价钱为: {{ sum }}</td>
+            <td colspan="2">平均价: {{ avgPrice || 0 }}</td>
+          </tr>
         </tbody>
-        <!-- 
-        <tfoot >
-          <tr>
+
+        <tfoot>
+          <tr v-show="list.length === 0">
             <td colspan="5" style="text-align: center">暂无数据</td>
           </tr>
         </tfoot>
-            -->
       </table>
 
       <!-- 添加资产 -->
@@ -65,7 +65,7 @@
               type="text"
               class="form-control"
               placeholder="价格"
-              v-model="price"
+              v-model.number="price"
             />
           </div>
         </div>
@@ -83,6 +83,9 @@
 //    yarn add bootstrap
 // 2. 把list数组 - 铺设表格
 // 3. 修改价格颜色 大于100 颜色为红
+//引入moment
+import moment from "moment";
+
 export default {
   name: "VueDemo",
   data () {
@@ -97,22 +100,45 @@ export default {
       price: 0,
     };
   },
+  filters: {
+    dateTime (val) {
+      return moment(val).format("YYYY-MM-DD");
+    },
+  },
+  //计算价格
+
+  // 求和
+  computed: {
+    sum () {
+      return this.list.reduce((sum, item) => (sum += item.price), 0);
+    },
+    avgPrice () {
+      return (this.sum / this.list.length).toFixed(1);
+    },
+  },
   methods: {
     add () {
-      if (this.name.length == 0 || this.price == 0) {
+      if (this.name.trim().length == 0 || this.price == 0) {
         this.name = "";
         this.price = 0;
         alert("请输入内容");
         return;
       }
+
+      let id = this.list > 0 ? this.list[this.list.length - 1].id + 1 : 100;
       this.list.push({
         name: this.name,
         price: this.price,
         time: new Date(),
-        id: this.list[this.list.length - 1].id + 1,
+        id: id,
       });
       this.name = "";
       this.price = 0;
+    },
+    delFn (id) {
+      // 通过id找到这条数据在数组中下标
+      let index = this.list.findIndex((obj) => obj.id === id);
+      this.list.splice(index, 1);
     },
   },
 };

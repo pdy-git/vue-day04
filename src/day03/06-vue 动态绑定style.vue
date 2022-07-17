@@ -13,7 +13,7 @@
 <script>
 export default {
   name: "VueStyle",
-  data() {
+  data () {
     return {};
   },
   methods: {},
