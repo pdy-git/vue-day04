@@ -22,4 +22,4 @@ module.exports = {
     semi: [0, "never"],
     "space-before-function-paren": ["error", "always"],
   },
-};
+}
