@@ -7,13 +7,13 @@
 <script>
 export default {
   name: "DemoTest",
-  data() {
+  data () {
     return {
       msg: "我是Demo组件",
     };
   },
   methods: {
-    fn() {
+    fn () {
       console.log("demo组件内的方法被调用了");
     },
   },
