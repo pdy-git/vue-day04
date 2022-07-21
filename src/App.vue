@@ -1,17 +1,9 @@
 <template>
-  <div>
-    <ComNameHaHa></ComNameHaHa>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import Com from "./components/Com.vue";
-export default {
-  components: {
-    // "ComNameHaHa": Com
-    [Com.name]: Com,
-  },
-};
+export default {};
 </script>
 
 <style></style>

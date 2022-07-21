@@ -24,6 +24,23 @@ Vue.filter("reverse", (val, s) => {
 
 //Vue.directive("指令名称" ，{})
 
+Vue.directive("gfocus", {
+  inserted (el) {
+    // console.log(el);
+    el.focus();
+  },
+});
+//更新颜色
+Vue.directive("color", {
+  inserted (el, binding) {
+    console.log(binding);
+    el.style.color = binding.value;
+  },
+  update (el, binding) {
+    el.style.color = binding.value;
+  },
+});
+
 new Vue({
   render: (h) => h(App),
 }).$mount("#app");
